@@ -9,5 +9,4 @@ class SpringRestApiApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

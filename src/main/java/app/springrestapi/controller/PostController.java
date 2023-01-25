@@ -1,42 +1,53 @@
 package app.springrestapi.controller;
 
-import app.springrestapi.mapper.PostMapper;
+import app.springrestapi.exception.IllegalDataException;
+import app.springrestapi.exception.NotFoundException;
+import app.springrestapi.pojo.Comment;
 import app.springrestapi.pojo.Post;
+import app.springrestapi.service.CommentService;
+import app.springrestapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/posts")
 public class PostController {
 
     @Autowired
-    private PostMapper postMapper;
+    private PostService postService;
 
-    @GetMapping("/posts")
-    public List<Post> getAllPosts() {
-        return postMapper.getAllPosts();
+    @Autowired
+    private CommentService commentService;
+
+    @GetMapping
+    public List<Post> getAllPosts() throws NotFoundException {
+        return postService.getAllPosts();
     }
 
-    @GetMapping("/posts/{id}")
-    public Post getPost(@PathVariable int id) {
-        return postMapper.getPostById(id);
+    @GetMapping("/{id}")
+    public Post getPostById(@PathVariable int id) throws NotFoundException {
+        return postService.getPostById(id);
     }
 
-    @PostMapping(value = "/posts", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Post createPost(@RequestBody Post post) {
-        return postMapper.insertPost(post);
+    @GetMapping("/{id}/comments")
+    public List<Comment> getCommentsByPostId(@PathVariable int id) throws NotFoundException {
+        return commentService.getCommentsByPostId(id);
     }
 
-    @PutMapping(value = "/posts", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Post updatePost(@RequestBody Post post) {
-        return postMapper.updatePost(post);
+    @PostMapping
+    public Post createPost(@RequestBody Post post) throws IllegalDataException {
+        return postService.createPost(post);
     }
 
-    @DeleteMapping(value = "/posts/{id}")
-    public Post deletePost(@PathVariable int id) {
-        return postMapper.deletePost(id);
+    @PutMapping
+    public Post updatePost(@RequestBody Post post) throws NotFoundException, IllegalDataException {
+        return postService.updatePost(post);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public Post deletePost(@PathVariable int id) throws NotFoundException {
+        return postService.deletePost(id);
     }
 }
