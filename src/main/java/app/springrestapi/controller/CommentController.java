@@ -3,7 +3,6 @@ package app.springrestapi.controller;
 import app.springrestapi.exception.NotFoundException;
 import app.springrestapi.mapper.CommentMapper;
 import app.springrestapi.pojo.Comment;
-import app.springrestapi.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +16,14 @@ import java.util.List;
 public class CommentController {
 
     @Autowired
-    CommentService commentService;
+    CommentMapper commentMapper;
 
-    @GetMapping("?postId={id}")
+    @GetMapping({"/comments?postId={id}", "posts/{id}/comments"})
     public List<Comment> getCommentsByPostId(@PathVariable int id) throws NotFoundException {
-        return commentService.getCommentsByPostId(id);
+        List<Comment> commentsByPostId = commentMapper.getCommentsByPostId(id);
+        if (commentsByPostId == null || commentsByPostId.size() == 0)
+            throw new NotFoundException(String.format("Post with id: '%d' does not have comments or does not exist", id));
+
+        return commentsByPostId;
     }
 }
