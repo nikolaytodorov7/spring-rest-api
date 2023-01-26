@@ -2,6 +2,7 @@ package app.springrestapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +23,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = IllegalDataException.class)
     public ResponseEntity<JsonResponse> handleIllegalData(Exception e) {
         return new ResponseEntity<>(new JsonResponse(BAD_REQUEST_STATUS_CODE, BAD_REQUEST_ERROR_MESSAGE, e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    public ResponseEntity<JsonResponse> handleUsernameNotFound(Exception e) {
+        return new ResponseEntity<>(new JsonResponse(NOT_FOUND_STATUS_CODE, NOT_FOUND_ERROR_MESSAGE, e.getMessage()), HttpStatus.NOT_FOUND);
     }
 }
