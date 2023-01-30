@@ -1,5 +1,6 @@
 package app.springrestapi.controller.impl;
 
+import app.springrestapi.annotation.Role;
 import app.springrestapi.exception.NotFoundException;
 import app.springrestapi.mapper.CommentMapper;
 import app.springrestapi.pojo.Comment;
@@ -14,6 +15,7 @@ public class CommentControllerImpl {
     @Autowired
     CommentMapper commentMapper;
 
+    @Role("USER")
     public List<Comment> getCommentsByPostId(int id) throws NotFoundException {
         List<Comment> commentsByPostId = commentMapper.getCommentsByPostId(id);
         if (commentsByPostId == null || commentsByPostId.size() == 0)

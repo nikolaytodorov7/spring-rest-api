@@ -9,6 +9,7 @@ import java.util.List;
 
 @RequestMapping("/posts")
 public interface PostController {
+
     @GetMapping
     List<Post> getAllPosts() throws NotFoundException;
 

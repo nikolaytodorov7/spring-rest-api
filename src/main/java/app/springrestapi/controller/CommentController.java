@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequestMapping
+@RequestMapping()
 public interface CommentController {
     @GetMapping({"/comments?postId={id}", "posts/{id}/comments"})
     List<Comment> getCommentsByPostId(@PathVariable int id) throws NotFoundException;
