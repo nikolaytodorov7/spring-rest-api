@@ -15,7 +15,6 @@ public class CommentControllerImpl {
     @Autowired
     CommentMapper commentMapper;
 
-    @Role("USER")
     public List<Comment> getCommentsByPostId(int id) throws NotFoundException {
         List<Comment> commentsByPostId = commentMapper.getCommentsByPostId(id);
         if (commentsByPostId == null || commentsByPostId.size() == 0)

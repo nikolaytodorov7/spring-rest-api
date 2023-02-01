@@ -1,5 +1,7 @@
 package app.springrestapi.service;
 
+import app.springrestapi.pojo.AuthCode;
+
 public interface AuthService {
-    boolean validateBasicAuthentication(String basicAuthHeaderValue, String role);
+    AuthCode validateBasicAuthentication(String basicAuthHeaderValue, String role);
 }

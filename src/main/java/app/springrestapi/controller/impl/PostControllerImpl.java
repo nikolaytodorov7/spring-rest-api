@@ -1,6 +1,5 @@
 package app.springrestapi.controller.impl;
 
-import app.springrestapi.annotation.Role;
 import app.springrestapi.controller.PostController;
 import app.springrestapi.exception.IllegalDataException;
 import app.springrestapi.exception.NotFoundException;
@@ -17,7 +16,6 @@ public class PostControllerImpl implements PostController {
     @Autowired
     private PostMapper postMapper;
 
-    @Role("USER")
     public List<Post> getAllPosts() throws NotFoundException {
         List<Post> allPosts = postMapper.getAllPosts();
         if (allPosts == null || allPosts.size() == 0)
@@ -26,7 +24,6 @@ public class PostControllerImpl implements PostController {
         return allPosts;
     }
 
-    @Role("USER")
     public Post getPostById(int id) throws NotFoundException {
         Post post = postMapper.getPostById(id);
         if (post == null)
@@ -35,7 +32,6 @@ public class PostControllerImpl implements PostController {
         return post;
     }
 
-    @Role("USER")
     public Post createPost(Post post) throws IllegalDataException {
         if (post == null)
             throw new IllegalDataException("Invalid post provided!");
@@ -43,7 +39,6 @@ public class PostControllerImpl implements PostController {
         return postMapper.insertPost(post);
     }
 
-    @Role("USER")
     public Post updatePost(Post post) throws NotFoundException, IllegalDataException {
         Post oldPost = getPostById(post.id);
         if (oldPost.equals(post))
@@ -52,7 +47,6 @@ public class PostControllerImpl implements PostController {
         return postMapper.updatePost(post);
     }
 
-    @Role("USER")
     public Post deletePost(int id) throws NotFoundException {
         getPostById(id);
         return postMapper.deletePost(id);
